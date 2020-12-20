@@ -57,9 +57,11 @@ def get_demz_grd(filin,lon,lat):
     return da_interp.z.values
 
 
-def read_dem(dem_to_read, method):
+def read_dem(dem_to_read, method, lonlat):
 
     start = time.time()
+
+    lon, lat = lonlat
 
     if method == 'xarray':
 
@@ -97,7 +99,7 @@ if __name__ == '__main__':
 
     # read using both methods and compare results
     for m in methods:
-        out, runt = read_dem(dem_to_read=dem_to_read, method=m)
-        print(out)
+        elev, runt = read_dem(dem_to_read=dem_to_read, method=m, lonlat=(lon,lat))
+        print(elev)
         print(f"## Reading/interpolation of {number_of_samples} samples finished "
               f"after {np.round(runt,2)} sec using method {m}!")
