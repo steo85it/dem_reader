@@ -32,6 +32,9 @@ def get_demz_tiff(filin,lon,lat):
 
     if debug:
         print(da)
+        da.plot(robust=True)
+        from matplotlib import pyplot as plt
+        plt.show()
         print("x,y len:", len(xi),len(yi))
 
     da_interp = da.interp(x=xi,y=yi)
@@ -65,10 +68,9 @@ def read_dem(dem_to_read, method, lonlat):
 
     if method == 'xarray':
 
-
-        if dem_to_read.split('.')[-1] == 'GRD':  # to read grd/netcdf files
+        if dem_to_read.split('.')[-1] in ['grd','GRD']:  # to read grd/netcdf files
             z = get_demz_grd(dem_to_read, lon, lat)
-        elif dem_to_read.split('.')[-1] == 'TIF':  # to read geotiffs usgs
+        elif dem_to_read.split('.')[-1] in ['tif','TIF']:  # to read geotiffs usgs
             z = np.squeeze(get_demz_tiff(dem_to_read, lon, lat))
 
         out = pd.DataFrame([lon, lat, z], index=['lon', 'lat', 'z']).T
